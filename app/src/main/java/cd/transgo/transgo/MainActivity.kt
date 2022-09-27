@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import cd.transgo.transgo.app.navigation.SetupNavGraph
 import cd.transgo.transgo.ui.theme.TransGoTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,26 +19,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TransGoTheme {
+                val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    SetupNavGraph(navController)
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    TransGoTheme {
-        Greeting("Android")
-    }
 }
