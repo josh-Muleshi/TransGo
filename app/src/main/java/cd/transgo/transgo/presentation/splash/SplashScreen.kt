@@ -7,9 +7,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -31,7 +34,7 @@ fun SplashScreen(navController: NavHostController, splashViewModel: SplashViewMo
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(state) {
-        delay(2000)
+        delay(3000)
         navController.navigate(Screen.Home.route)
     }
 
@@ -51,14 +54,20 @@ fun SplashScreen(navController: NavHostController, splashViewModel: SplashViewMo
         )
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            val offset = Offset(5.0f, 10.0f)
             Text(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.h1.copy(
-                    fontSize = 32.sp,
+                    fontSize = 40.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FugazOne,
                     textAlign = TextAlign.Center,
-                    color = Color.White
+                    color = Color.White,
+                    shadow = Shadow(
+                        color = Color.DarkGray,
+                        offset = offset,
+                        blurRadius = 0.1f
+                    )
                 )
             )
         }
