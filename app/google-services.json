@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1071080927252",
+    "project_id": "transgo-9b472",
+    "storage_bucket": "transgo-9b472.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071080927252:android:dd5a56bb9b64ddec30b701",
+        "android_client_info": {
+          "package_name": "cd.transgo.transgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071080927252-69mcdcfbg8uuitcfofib295t2009pu1p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cd.transgo.transgo",
+            "certificate_hash": "8a5f9d555790ce0beb8ec9904f39c240b47f9969"
+          }
+        },
+        {
+          "client_id": "1071080927252-u8cdpvclqb60trvmbtl8k7kjmi2site1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCedDhMkAx9mwhIRSTFawZeyk5PujX8s4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071080927252-u8cdpvclqb60trvmbtl8k7kjmi2site1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
