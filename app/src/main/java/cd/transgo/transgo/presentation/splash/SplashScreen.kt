@@ -12,20 +12,19 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import cd.transgo.transgo.R
 import cd.transgo.transgo.app.navigation.Screen
+import cd.transgo.transgo.presentation.splash.business.SplashViewModel
 import cd.transgo.transgo.ui.theme.Back1
 import cd.transgo.transgo.ui.theme.Back2
 import cd.transgo.transgo.ui.theme.Back3
-import cd.transgo.transgo.presentation.splash.business.SplashViewModel
 import cd.transgo.transgo.ui.theme.FugazOne
 import kotlinx.coroutines.delay
+import cd.transgo.transgo.R
 
 @Composable
 fun SplashScreen(navController: NavHostController, splashViewModel: SplashViewModel = hiltViewModel()) {
@@ -70,6 +69,7 @@ fun SplashScreen(navController: NavHostController, splashViewModel: SplashViewMo
                     )
                 )
             )
+
         }
     }
 }
