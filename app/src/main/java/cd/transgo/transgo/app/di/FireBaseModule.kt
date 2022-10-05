@@ -2,6 +2,10 @@ package cd.transgo.transgo.app.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateRemoteModel
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
@@ -25,5 +29,10 @@ object FirebaseModule {
     @Provides
     fun provideFirebaseStorage() : FirebaseStorage {
         return FirebaseStorage.getInstance()
+    }
+
+    @Provides
+    fun provideFirebaseTranslate() : FirebaseNaturalLanguage {
+        return FirebaseNaturalLanguage.getInstance()
     }
 }
