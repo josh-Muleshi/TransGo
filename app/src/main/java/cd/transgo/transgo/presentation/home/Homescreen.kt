@@ -109,7 +109,7 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
                 Spacer(modifier = Modifier.padding(24.dp))
 
                 Text(
-                    text = if ((tit as HomeState.Success).message.isNotEmpty()) title else "Traduction...",
+                    text = (tit as HomeState.Success).message,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(15.dp)

@@ -35,4 +35,6 @@ object FirebaseModule {
     fun provideFirebaseTranslate() : FirebaseNaturalLanguage {
         return FirebaseNaturalLanguage.getInstance()
     }
+
+
 }

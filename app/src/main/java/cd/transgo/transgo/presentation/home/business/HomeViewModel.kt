@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val translateRepository: TranslateRepository) : ViewModel() {
 
-    private val _data = MutableStateFlow<HomeState>(HomeState.Uninitialized)
+    private val _data = MutableStateFlow<HomeState>(HomeState.Success("Traduction..."))
     val data: StateFlow<HomeState>
         get() = _data
 

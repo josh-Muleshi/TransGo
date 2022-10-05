@@ -8,18 +8,17 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class TranslateRepository @Inject constructor(private val firebaseTranslator: FirebaseTranslator, val context: ApplicationContext) {
+class TranslateRepository @Inject constructor(private val firebaseNaturalLanguage: FirebaseNaturalLanguage) {
     fun translate(source: String): String {
         var translatetxt = "Traduction..."
         val options = FirebaseTranslatorOptions.Builder()
             .setSourceLanguage(FirebaseTranslateLanguage.FR)
             .setTargetLanguage(FirebaseTranslateLanguage.SW)
             .build()
-        val frenchSwahiliTranslator = FirebaseNaturalLanguage.getInstance().getTranslator(options)
-
-        frenchSwahiliTranslator.downloadModelIfNeeded()
+        val firebaseTranslator = firebaseNaturalLanguage.getTranslator(options)
+        firebaseTranslator.downloadModelIfNeeded()
             .addOnSuccessListener {
-                frenchSwahiliTranslator.translate(source)
+                firebaseTranslator.translate(source)
                     .addOnSuccessListener { translatedText ->
                         translatetxt = translatedText
                     }
