@@ -15,7 +15,7 @@ class TranslateRepository @Inject constructor(private val firebaseNaturalLanguag
             .setSourceLanguage(FirebaseTranslateLanguage.FR)
             .setTargetLanguage(FirebaseTranslateLanguage.SW)
             .build()
-        val firebaseTranslator = firebaseNaturalLanguage.getTranslator(options)
+        val firebaseTranslator = FirebaseNaturalLanguage.getInstance().getTranslator(options)
         firebaseTranslator.downloadModelIfNeeded()
             .addOnSuccessListener {
                 firebaseTranslator.translate(source)

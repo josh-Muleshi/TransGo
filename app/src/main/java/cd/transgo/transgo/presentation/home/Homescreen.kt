@@ -2,6 +2,7 @@ package cd.transgo.transgo.presentation.home
 
 import ToolbarWidget
 import android.app.Activity
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +26,9 @@ import cd.transgo.transgo.R
 import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.home.business.HomeViewModel
 import cd.transgo.transgo.ui.theme.BackGray
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 
 @Composable
 fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = hiltViewModel()) {
@@ -36,6 +40,7 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
     }
 
     var title by remember { mutableStateOf("") }
+    var translatetxt by remember { mutableStateOf( "Traduction...") }
     val focusRequest = remember {
         FocusRequester()
     }
@@ -52,7 +57,25 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    homeViewModel.translate(title)
+                    //homeViewModel.translate(title)
+                    val options = FirebaseTranslatorOptions.Builder()
+                        .setSourceLanguage(FirebaseTranslateLanguage.FR)
+                        .setTargetLanguage(FirebaseTranslateLanguage.EN)
+                        .build()
+                    val firebaseTranslator = FirebaseNaturalLanguage.getInstance().getTranslator(options)
+                    firebaseTranslator.downloadModelIfNeeded()
+                        .addOnSuccessListener {
+                            firebaseTranslator.translate(title)
+                                .addOnSuccessListener { translatedText ->
+                                    translatetxt = translatedText
+                                }
+                                .addOnFailureListener { exception ->
+                                    Toast.makeText(context, "echec de traduction: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(context, "echec de traduction: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        }
                 }
             ) {
                 Icon(Icons.Filled.Add,"")
@@ -109,7 +132,7 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
                 Spacer(modifier = Modifier.padding(24.dp))
 
                 Text(
-                    text = (tit as HomeState.Success).message,
+                    text = translatetxt,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(15.dp)
