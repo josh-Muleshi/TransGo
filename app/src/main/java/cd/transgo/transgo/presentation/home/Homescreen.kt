@@ -26,6 +26,7 @@ import cd.transgo.transgo.R
 import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.home.business.HomeViewModel
 import cd.transgo.transgo.ui.theme.BackGray
+import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
@@ -63,7 +64,8 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
                         .setTargetLanguage(FirebaseTranslateLanguage.EN)
                         .build()
                     val firebaseTranslator = FirebaseNaturalLanguage.getInstance().getTranslator(options)
-                    firebaseTranslator.downloadModelIfNeeded()
+                    val condition = FirebaseModelDownloadConditions.Builder().build()
+                    firebaseTranslator.downloadModelIfNeeded(condition)
                         .addOnSuccessListener {
                             firebaseTranslator.translate(title)
                                 .addOnSuccessListener { translatedText ->
