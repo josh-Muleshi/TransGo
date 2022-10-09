@@ -21,11 +21,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import cd.transgo.transgo.R
 import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.home.business.HomeViewModel
 import cd.transgo.transgo.ui.theme.BackGray
+import cd.transgo.transgo.ui.theme.Purple500
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
@@ -35,7 +37,7 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = hiltViewModel()) {
 
     val context = LocalContext.current
-    val tit by homeViewModel.data.collectAsState()
+    val state by homeViewModel.state.collectAsState()
     var isClicked by remember {
         mutableStateOf(false)
     }
@@ -57,27 +59,9 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
             FloatingActionButton(
+                backgroundColor = Purple500,
                 onClick = {
-                    //homeViewModel.translate(title)
-                    val options = FirebaseTranslatorOptions.Builder()
-                        .setSourceLanguage(FirebaseTranslateLanguage.FR)
-                        .setTargetLanguage(FirebaseTranslateLanguage.EN)
-                        .build()
-                    val firebaseTranslator = FirebaseNaturalLanguage.getInstance().getTranslator(options)
-                    val condition = FirebaseModelDownloadConditions.Builder().build()
-                    firebaseTranslator.downloadModelIfNeeded(condition)
-                        .addOnSuccessListener {
-                            firebaseTranslator.translate(title)
-                                .addOnSuccessListener { translatedText ->
-                                    translatetxt = translatedText
-                                }
-                                .addOnFailureListener { exception ->
-                                    Toast.makeText(context, "echec de traduction: ${exception.message}", Toast.LENGTH_SHORT).show()
-                                }
-                        }
-                        .addOnFailureListener { exception ->
-                            Toast.makeText(context, "echec de traduction: ${exception.message}", Toast.LENGTH_SHORT).show()
-                        }
+                    homeViewModel.translate(title)
                 }
             ) {
                 Icon(Icons.Filled.Add,"")
@@ -133,12 +117,16 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
 
                 Spacer(modifier = Modifier.padding(24.dp))
 
-                Text(
-                    text = translatetxt,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(15.dp)
-                )
+                if(state is HomeState.Suc){
+                    (state as HomeState.Suc).advice.slips?.get(0)?.let { message ->
+                        Text(
+                            text = if (message.advice?.isNotEmpty() == true) message.advice else "Translate",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(15.dp)
+                        )
+                    }
+                }
             }
         }
     }
