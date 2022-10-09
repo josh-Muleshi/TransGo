@@ -34,7 +34,7 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguag
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 
 @Composable
-fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
 
     val context = LocalContext.current
     val state by homeViewModel.state.collectAsState()
@@ -117,8 +117,8 @@ fun Homescreen(navController: NavHostController, homeViewModel: HomeViewModel = 
 
                 Spacer(modifier = Modifier.padding(24.dp))
 
-                if(state is HomeState.Suc){
-                    (state as HomeState.Suc).advice.slips?.get(0)?.let { message ->
+                if(state is HomeState.Success){
+                    (state as HomeState.Success).advice.slips?.get(0)?.let { message ->
                         Text(
                             text = if (message.advice?.isNotEmpty() == true) message.advice else "Translate",
                             modifier = Modifier

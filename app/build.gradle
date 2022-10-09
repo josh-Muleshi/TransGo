@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.gms.google-services'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -64,15 +63,6 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
-    implementation platform('com.google.firebase:firebase-bom:30.3.2')
-    implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.0.2'
-    implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
-    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.8'
-    implementation 'com.google.firebase:firebase-config-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.3"
 
@@ -82,9 +72,6 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
-    implementation "com.google.accompanist:accompanist-permissions:0.24.0-alpha"
-    implementation "com.google.accompanist:accompanist-insets:0.24.0-alpha"
 
     implementation 'androidx.preference:preference-ktx:1.2.0'
 }
