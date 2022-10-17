@@ -20,6 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import cd.transgo.transgo.R
 import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.home.business.HomeViewModel
@@ -27,7 +28,7 @@ import cd.transgo.transgo.ui.theme.BackGray
 import cd.transgo.transgo.ui.theme.Purple500
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(navController: NavController ,homeViewModel: HomeViewModel = hiltViewModel()) {
 
     val context = LocalContext.current
     val state by homeViewModel.state.collectAsState()
@@ -47,7 +48,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
 
     Scaffold(
         topBar = {
-            ToolbarWidget()
+            ToolbarWidget(navController)
         },
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
