@@ -110,16 +110,6 @@ fun HomeScreen(navController: NavController ,homeViewModel: HomeViewModel = hilt
                         value = title,
                         onValueChange = { title = it },
                         placeholder = { Text("Saisissez ici...") },
-                        trailingIcon = {
-                            if (title.isNotEmpty()) {
-                                IconButton(modifier = Modifier.align(Alignment.TopEnd),onClick = { title = "" }) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Close,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                        },
                         textStyle = TextStyle(fontSize = MaterialTheme.typography.subtitle1.fontSize, fontWeight = FontWeight.Medium),
                         singleLine = false,
                         modifier = Modifier
@@ -132,6 +122,14 @@ fun HomeScreen(navController: NavController ,homeViewModel: HomeViewModel = hilt
                             unfocusedIndicatorColor = Trans
                         )
                     )
+
+                    if (title.isNotEmpty()) {
+                        Icon(
+                            imageVector = Icons.Outlined.Close,
+                            contentDescription = null,
+                            modifier = Modifier.align(Alignment.TopEnd).padding(16.dp).clickable { title = "" }
+                        )
+                    }
                 }
 
                 if(state is HomeState.Success && title != ""){
