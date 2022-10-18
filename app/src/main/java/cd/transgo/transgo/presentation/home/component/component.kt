@@ -1,12 +1,10 @@
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,12 +41,14 @@ fun ToolbarWidget(navController: NavController) {
                     fontSize = 20.sp
                 )
             )
-            Image(
-                imageVector = Icons.Default.Add,
-                contentDescription = "settings",
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = "auth",
+                tint = White,
                 modifier = Modifier
+                    .padding(8.dp)
                     .size(30.dp)
-                    .clickable { navController.navigate(Screen.Translator.route) }
+                    .clickable { navController.navigate(Screen.Auth.route) }
             )
         }
     }
