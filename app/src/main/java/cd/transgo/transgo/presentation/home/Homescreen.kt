@@ -1,7 +1,11 @@
 package cd.transgo.transgo.presentation.home
 
 import ToolbarWidget
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
+import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,8 +15,8 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,11 +25,15 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import cd.transgo.transgo.R
@@ -33,11 +41,14 @@ import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.home.business.HomeViewModel
 import cd.transgo.transgo.ui.theme.*
 
+
+@SuppressLint("ServiceCast")
 @Composable
-fun HomeScreen(navController: NavController ,homeViewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltViewModel()) {
 
     val context = LocalContext.current
     val state by homeViewModel.state.collectAsState()
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
     var isClicked by remember {
         mutableStateOf(false)
     }
@@ -127,7 +138,10 @@ fun HomeScreen(navController: NavController ,homeViewModel: HomeViewModel = hilt
                         Icon(
                             imageVector = Icons.Outlined.Close,
                             contentDescription = null,
-                            modifier = Modifier.align(Alignment.TopEnd).padding(16.dp).clickable { title = "" }
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(16.dp)
+                                .clickable { title = "" }
                         )
                     }
                 }
@@ -172,6 +186,50 @@ fun HomeScreen(navController: NavController ,homeViewModel: HomeViewModel = hilt
                                     )
                                 )
                             }
+
+                            Row(modifier = Modifier
+                                .align(Alignment.BottomEnd)) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Share,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            end = 8.dp,
+                                            bottom = 16.dp,
+                                            start = 16.dp
+                                        )
+                                        .clickable {
+                                            val sendIntent = Intent()
+                                            sendIntent.action = Intent.ACTION_SEND
+                                            sendIntent.putExtra(
+                                                Intent.EXTRA_TEXT,
+                                                message.advice.toString()
+                                            )
+                                            sendIntent.type = "text/plain"
+                                            startActivity(context, sendIntent, null)
+                                        }
+                                )
+
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_copy),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            end = 16.dp,
+                                            bottom = 16.dp,
+                                            start = 8.dp
+                                        )
+                                        .clickable {
+                                            clipboardManager.setText(AnnotatedString((message.advice.toString())))
+                                            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+                                                Toast
+                                                    .makeText(context, "Copied", Toast.LENGTH_SHORT)
+                                                    .show()
+                                        }
+                                )
+                            }
                         }
                     }
                 }
@@ -179,3 +237,5 @@ fun HomeScreen(navController: NavController ,homeViewModel: HomeViewModel = hilt
         }
     }
 }
+
+
