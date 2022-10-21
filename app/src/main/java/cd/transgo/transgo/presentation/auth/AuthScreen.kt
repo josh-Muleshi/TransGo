@@ -1,6 +1,7 @@
 package cd.transgo.transgo.presentation.auth
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -40,6 +42,8 @@ import androidx.navigation.NavHostController
 import cd.transgo.transgo.app.navigation.Screen
 import cd.transgo.transgo.presentation.auth.business.AuthState
 import cd.transgo.transgo.presentation.auth.business.AuthViewModel
+import cd.transgo.transgo.ui.theme.Back1
+import cd.transgo.transgo.ui.theme.Back2
 
 @Composable
 fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hiltViewModel()) {
@@ -108,7 +112,7 @@ fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hilt
             contentPadding = PaddingValues(8.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Red,
+                backgroundColor = Back1,
                 contentColor = Color.White
             ),
             modifier = Modifier

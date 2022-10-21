@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth) {
     suspend fun register(email: String, password: String) {
-        firebaseAuth.signInWithEmailAndPassword(email, password).await()
+        firebaseAuth.createUserWithEmailAndPassword(email, password).await()
     }
 }
