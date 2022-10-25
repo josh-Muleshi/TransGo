@@ -41,7 +41,6 @@ import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.home.business.HomeViewModel
 import cd.transgo.transgo.ui.theme.*
 
-
 @SuppressLint("ServiceCast")
 @Composable
 fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltViewModel()) {
