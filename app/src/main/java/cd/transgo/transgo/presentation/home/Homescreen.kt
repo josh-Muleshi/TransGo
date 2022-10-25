@@ -47,7 +47,7 @@ import cd.transgo.transgo.ui.theme.*
 fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltViewModel()) {
 
     val context = LocalContext.current
-    val state by homeViewModel.state.collectAsState()
+    val data by homeViewModel.data.collectAsState()
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     var isClicked by remember {
         mutableStateOf(false)
@@ -65,7 +65,7 @@ fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltV
 
     Scaffold(
         topBar = {
-            ToolbarWidget(navController)
+            ToolbarWidget(navController, homeViewModel)
         },
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
@@ -146,8 +146,8 @@ fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltV
                     }
                 }
 
-                if(state is HomeState.Success && title != ""){
-                    (state as HomeState.Success).advice.slips?.get(0)?.let { message ->
+                if(data is HomeState.Success && title != ""){
+                    (data as HomeState.Success).advice.slips?.get(0)?.let { message ->
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -224,9 +224,7 @@ fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltV
                                         .clickable {
                                             clipboardManager.setText(AnnotatedString((message.advice.toString())))
                                             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
-                                                Toast
-                                                    .makeText(context, "Copied", Toast.LENGTH_SHORT)
-                                                    .show()
+                                                Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show()
                                         }
                                 )
                             }

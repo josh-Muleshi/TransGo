@@ -1,5 +1,6 @@
 package cd.transgo.transgo.presentation.home.business
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cd.transgo.transgo.data.repository.AdviceRepository
@@ -11,20 +12,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val adviceRepository: AdviceRepository
+    private val adviceRepository: AdviceRepository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<HomeState>(HomeState.Uninitialized)
-    val state: StateFlow<HomeState>
+    private val _state = MutableStateFlow<ConnectionState>(ConnectionState.Uninitialized)
+    val state: StateFlow<ConnectionState>
         get() = _state
 
+    private val _data = MutableStateFlow<HomeState>(HomeState.Uninitialized)
+    val data: StateFlow<HomeState>
+        get() = _data
+
+    init {
+        viewModelScope.launch {
+            _state.emit(ConnectionState.Loading)
+            if (sharedPreferences.getBoolean("is-auth", false)) {
+                _state.emit(ConnectionState.Success(true))
+            } else {
+                _state.emit(ConnectionState.Success(false))
+            }
+        }
+    }
+
     fun translate(source: String) = viewModelScope.launch {
-        _state.emit(HomeState.Loading)
+        _data.emit(HomeState.Loading)
         try {
             val advice = adviceRepository.getAdvice(source)
-            _state.emit(HomeState.Success(advice))
+            _data.emit(HomeState.Success(advice))
         } catch (t: Throwable) {
-            _state.emit(HomeState.Error(t.message.toString()))
+            _data.emit(HomeState.Error(t.message.toString()))
         }
     }
 }

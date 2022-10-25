@@ -1,11 +1,12 @@
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -17,10 +18,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import cd.transgo.transgo.R
 import cd.transgo.transgo.app.navigation.Screen
+import cd.transgo.transgo.presentation.home.business.ConnectionState
+import cd.transgo.transgo.presentation.home.business.HomeViewModel
 import cd.transgo.transgo.ui.theme.Purple500
+import kotlinx.coroutines.launch
 
 @Composable
-fun ToolbarWidget(navController: NavController) {
+fun ToolbarWidget(navController: NavController, homeViewModel: HomeViewModel) {
+
+    val state by homeViewModel.state.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
     TopAppBar(
         backgroundColor = Purple500,
         contentColor = White,
@@ -48,7 +57,23 @@ fun ToolbarWidget(navController: NavController) {
                 modifier = Modifier
                     .padding(8.dp)
                     .size(30.dp)
-                    .clickable { navController.navigate(Screen.Auth.route) }
+                    .clickable {
+                        coroutineScope.launch {
+                            when(state) {
+                                is ConnectionState.Success -> {
+                                    if ((state as ConnectionState.Success).isAuth) {
+                                        navController.navigate(Screen.Translator.route)
+                                    } else {
+                                        navController.navigate(Screen.Auth.route)
+                                    }
+                                }
+                                is ConnectionState.Error -> {
+                                    snackbarHostState.showSnackbar((state as ConnectionState.Error).errorMessage)
+                                }
+                                else -> {}
+                            }
+                        }
+                    }
             )
         }
     }
