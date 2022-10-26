@@ -1,6 +1,7 @@
 package cd.transgo.transgo.presentation.auth
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -132,6 +133,13 @@ fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hilt
                     CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.Red)
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(modifier = Modifier.fillMaxWidth(). padding(16.dp),horizontalArrangement = Arrangement.SpaceEvenly) {
+            Image(painterResource(id = R.drawable.fb_black),"login", modifier = Modifier.size(50.dp))
+            Image(painterResource(id = R.drawable.gmail_black),"login", modifier = Modifier.size(53.dp))
         }
     }
 }
