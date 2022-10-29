@@ -1,8 +1,12 @@
 package cd.transgo.transgo.presentation.auth
 
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,7 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,12 +48,30 @@ import cd.transgo.transgo.presentation.auth.business.AuthState
 import cd.transgo.transgo.presentation.auth.business.AuthViewModel
 import cd.transgo.transgo.ui.theme.Back1
 import cd.transgo.transgo.ui.theme.Back2
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
 
 @Composable
 fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hiltViewModel()) {
 
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val token = stringResource(R.string.webclient_id)
+
+
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+        try {
+            val account = task.getResult(ApiException::class.java)!!
+            val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+            viewModel.signWithGoogleCredential(credential)
+        } catch (e: ApiException) {
+            Log.w("TAG", "Google sign in failed", e)
+        }
+    }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -138,8 +162,18 @@ fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hilt
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(modifier = Modifier.fillMaxWidth(). padding(16.dp),horizontalArrangement = Arrangement.SpaceEvenly) {
-            Image(painterResource(id = R.drawable.fb_black),"login", modifier = Modifier.size(50.dp))
-            Image(painterResource(id = R.drawable.gmail_black),"login", modifier = Modifier.size(53.dp))
+            Image(painterResource(id = R.drawable.fb_black),"login", modifier = Modifier.size(50.dp).clickable {
+
+            })
+            Image(painterResource(id = R.drawable.gmail_black),"login", modifier = Modifier.size(53.dp).clickable {
+                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(token)
+                    .requestEmail()
+                    .build()
+
+                val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                launcher.launch(googleSignInClient.signInIntent)
+            })
         }
     }
 }
