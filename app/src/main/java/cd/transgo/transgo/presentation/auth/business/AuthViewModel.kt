@@ -36,8 +36,8 @@ class AuthViewModel @Inject constructor(
     }
 
     fun signWithGoogleCredential(credential: AuthCredential) = viewModelScope.launch {
+        _state.emit(AuthState.Loading)
         try {
-            _state.emit(AuthState.Loading)
             userRepository.signWithGoogleCredential(credential)
             val editor = sharedPreferences.edit()
             editor.apply {
