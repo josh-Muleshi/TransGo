@@ -82,11 +82,6 @@ fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hilt
             value = email,
             onValueChange = { email = it },
             shape = RoundedCornerShape(16.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                backgroundColor = Color.LightGray,
-                focusedBorderColor = Color.LightGray,
-                unfocusedBorderColor = Color.LightGray
-            ),
             label = {
                 Text(text = "Email")
             }
