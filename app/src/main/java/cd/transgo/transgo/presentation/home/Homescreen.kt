@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -62,20 +63,13 @@ fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltV
         (context as? Activity)?.finish()
     }
 
+    LaunchedEffect(title){
+        homeViewModel.translate(title)
+    }
+
     Scaffold(
         topBar = {
             ToolbarWidget(navController, homeViewModel)
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        floatingActionButton = {
-            FloatingActionButton(
-                backgroundColor = Purple500,
-                onClick = {
-                    homeViewModel.translate(title)
-                }
-            ) {
-                Icon(painterResource(id = R.drawable.ic_translate),"login", tint = Color.White)
-            }
         }
     ){
         Column(
@@ -145,7 +139,7 @@ fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltV
                     }
                 }
 
-                if(data is HomeState.Success && title != ""){
+                if(data is HomeState.Success  && title != "" ){
                     (data as HomeState.Success).advice.slips?.get(0)?.let { message ->
                         Box(
                             modifier = Modifier
@@ -223,7 +217,9 @@ fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltV
                                         .clickable {
                                             clipboardManager.setText(AnnotatedString((message.advice.toString())))
                                             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
-                                                Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show()
+                                                Toast
+                                                    .makeText(context, "Copied", Toast.LENGTH_SHORT)
+                                                    .show()
                                         }
                                 )
                             }
