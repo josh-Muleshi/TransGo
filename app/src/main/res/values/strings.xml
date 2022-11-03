@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">TransGo</string>
     <string name="webclient_id">1071080927252-u8cdpvclqb60trvmbtl8k7kjmi2site1.apps.googleusercontent.com</string>
+
+    <string name="facebook_app_id">1234</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="txt_connect_with_facebook">Connexion</string>
 </resources>

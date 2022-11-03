@@ -16,16 +16,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import cd.transgo.transgo.R
 import cd.transgo.transgo.app.navigation.Screen
+import cd.transgo.transgo.data.utils.FacebookUtil
 import cd.transgo.transgo.presentation.auth.business.AuthState
 import cd.transgo.transgo.presentation.auth.business.AuthViewModel
 import cd.transgo.transgo.ui.theme.Back1
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -154,5 +161,51 @@ fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hilt
                     launcher.launch(googleSignInClient.signInIntent)
                 })
         }
+
+        CustomFacebookButton()
     }
+}
+
+
+@Composable
+fun CustomFacebookButton(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onSuccess: (LoginResult) -> Unit,
+    onCancel: () -> Unit,
+    onError: (FacebookException?) -> Unit,
+) {
+
+    val callbackManager = FacebookUtil.callbackManager
+    val loginText = stringResource(R.string.txt_connect_with_facebook)
+    AndroidView(
+        modifier = modifier.fillMaxWidth().height(50.dp),
+        factory = ::LoginButton,
+        update = { button ->
+            button.setLoginText(loginText)
+            //button.setPermissions("email")
+            button.setReadPermissions("email")
+            button.isEnabled = enabled
+
+            button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult) {
+                    onSuccess(result)
+                    //Timber.e("Login : ${result.accessToken}")
+                    Log.e("Login : ", "${result.accessToken}")
+                }
+
+                override fun onCancel() {
+                    onCancel()
+                    //Timber.e("Login : On Cancel")
+                    Log.e("Login : ", "On Cancel")
+                }
+
+                override fun onError(error: FacebookException?) {
+                    onError(error)
+                    //Timber.e("Login : ${error?.localizedMessage}")
+                    Log.e("Login : ", "${error?.localizedMessage}")
+                }
+            })
+        }
+    )
 }
