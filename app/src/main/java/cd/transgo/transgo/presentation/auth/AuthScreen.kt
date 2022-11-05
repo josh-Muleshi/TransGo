@@ -162,7 +162,7 @@ fun AuthScreen(navController: NavHostController, viewModel: AuthViewModel = hilt
                 })
         }
 
-        CustomFacebookButton()
+        //CustomFacebookButton()
     }
 }
 

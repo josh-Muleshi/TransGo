@@ -1,9 +1,6 @@
 package cd.transgo.transgo.data.repository
 
-import android.util.Log
 import cd.transgo.transgo.app.service.ApiService
-import cd.transgo.transgo.data.model.Advice
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 

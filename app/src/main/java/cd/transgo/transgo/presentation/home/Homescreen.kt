@@ -44,7 +44,7 @@ import cd.transgo.transgo.ui.theme.*
 
 @SuppressLint("ServiceCast")
 @Composable
-fun HomeScreen(navController: NavController,homeViewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hiltViewModel()) {
 
     val context = LocalContext.current
     val data by homeViewModel.data.collectAsState()
