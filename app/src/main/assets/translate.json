@@ -10,5 +10,83 @@
     "translate": "mbonte",
     "date": "2015-05-26",
     "id": 2
+  },
+  {
+    "word": "bienvenue",
+    "translate": "boyei elamu !",
+    "date": "2015-05-26",
+    "id": 3
+  },
+  {
+    "word": "bienvenue chez nous",
+    "translate": "boyei elamu epayi na biso !",
+    "date": "2015-05-26",
+    "id": 4
+  },
+  {
+    "word": "comment ça va ?",
+    "translate": "boni nzoto ?",
+    "date": "2015-05-26",
+    "id": 5
+  },
+  {
+    "word": "comment va la santé",
+    "translate": "boni sante ?",
+    "date": "2015-05-26",
+    "id": 6
+  },
+  {
+    "word": "comment ça va chez vous ?",
+    "translate": "boni epayi na bino?",
+    "date": "2015-05-26",
+    "id": 7
+  },
+  {
+    "word": "comment ça va à la maison ?",
+    "translate": "boni (bino) na ndako?",
+    "date": "2015-05-26",
+    "id": 8
+  },
+  {
+    "word": "nous avons de la visite",
+    "translate": "toyambi bapaya !",
+    "date": "2015-05-26",
+    "id": 9
+  },
+  {
+    "word": "nous avons des invités",
+    "translate": "toyambi bapaya !",
+    "date": "2015-05-26",
+    "id": 10
+  },
+  {
+    "word": "nous venons vous rendre visite",
+    "translate": "toyei kotala bino",
+    "date": "2015-05-26",
+    "id": 11
+  },
+  {
+    "word": "tu vas bien ?",
+    "translate": "oyali (ou: ozali malamu? oza malamu? o’a malamu?)",
+    "date": "2015-05-26",
+    "id": 12
+  },
+  {
+    "word": "comment allez-vous ?",
+    "translate": "sango boni ? ou sango nini ?",
+    "date": "2015-05-26",
+    "id": 13
+  },
+  {
+    "word": "quelles sont les nouvelles ?",
+    "translate": "sango boni ? ou sango nini ?",
+    "date": "2015-05-26",
+    "id": 14
+  },
+  {
+    "word": "quoi de neuf ?",
+    "translate": "sango boni ? ou sango nini ?",
+    "date": "2015-05-26",
+    "id": 15
   }
 ]
