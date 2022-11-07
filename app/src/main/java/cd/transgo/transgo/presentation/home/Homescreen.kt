@@ -216,7 +216,7 @@ fun HomeScreen(navController: NavController, viewModel: MainViewModel) {
                                             start = 8.dp
                                         )
                                         .clickable {
-                                            clipboardManager.setText(AnnotatedString((message.toString())))
+                                            clipboardManager.setText(AnnotatedString((message)))
                                             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
                                                 Toast
                                                     .makeText(context, "Copied", Toast.LENGTH_SHORT)
