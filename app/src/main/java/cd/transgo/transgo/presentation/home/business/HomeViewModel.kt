@@ -4,17 +4,13 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cd.transgo.transgo.data.model.Advice
-import cd.transgo.transgo.data.model.Slip
 import cd.transgo.transgo.data.repository.AdviceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,10 +42,12 @@ class HomeViewModel @Inject constructor(
     fun translate(source: String) = viewModelScope.launch {
         _data.emit(HomeState.Loading)
         try {
-            adviceRepository.getAdvice(source).debounce(7000).collect { advice ->
-                _data.emit(HomeState.Success(advice))
-            }
+//            adviceRepository.getTranslate(source).debounce(7000).collect { advice ->
+//                Log.e("see", advice.translate.toString())
+//                _data.emit(HomeState.Success(advice))
+//            }
         } catch (t: Throwable) {
+            Log.e("see", "faild")
             _data.emit(HomeState.Error(t.message.toString()))
         }
     }

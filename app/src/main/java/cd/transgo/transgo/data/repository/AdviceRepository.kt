@@ -7,7 +7,9 @@ import javax.inject.Inject
 class AdviceRepository @Inject constructor(
     private val service: ApiService
 ) {
+
     fun getAdvice(source: String) = flow {
         emit(service.getAdvice(source))
     }
 }
+

@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import cd.transgo.transgo.MainViewModel
 import cd.transgo.transgo.R
 import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.home.business.HomeViewModel
@@ -44,10 +45,10 @@ import cd.transgo.transgo.ui.theme.*
 
 @SuppressLint("ServiceCast")
 @Composable
-fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(navController: NavController, viewModel: MainViewModel) {
 
     val context = LocalContext.current
-    val data by homeViewModel.data.collectAsState()
+    val data by viewModel.data.collectAsState()
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     var isClicked by remember {
         mutableStateOf(false)
@@ -64,12 +65,12 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
     }
 
     LaunchedEffect(title){
-        homeViewModel.translate(title)
+        viewModel.translate(title)
     }
 
     Scaffold(
         topBar = {
-            ToolbarWidget(navController, homeViewModel)
+            ToolbarWidget(navController)
         }
     ){
         Column(
@@ -140,7 +141,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
                 }
 
                 if(data is HomeState.Success  && title != "" ){
-                    (data as HomeState.Success).advice.slips?.get(0)?.let { message ->
+                    (data as HomeState.Success).advice.translate?.let { message ->
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -163,7 +164,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
 
                             CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
                                 TextField(
-                                    value = if (message.advice?.isNotEmpty() == true) message.advice else translatetxt,
+                                    value = message.ifEmpty { translatetxt },
                                     onValueChange = { translatetxt = it },
                                     textStyle = TextStyle(fontSize = MaterialTheme.typography.subtitle1.fontSize, fontWeight = FontWeight.Medium),
                                     singleLine = false,
@@ -197,7 +198,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
                                             sendIntent.action = Intent.ACTION_SEND
                                             sendIntent.putExtra(
                                                 Intent.EXTRA_TEXT,
-                                                message.advice.toString()
+                                                message.toString()
                                             )
                                             sendIntent.type = "text/plain"
                                             startActivity(context, sendIntent, null)
@@ -215,7 +216,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
                                             start = 8.dp
                                         )
                                         .clickable {
-                                            clipboardManager.setText(AnnotatedString((message.advice.toString())))
+                                            clipboardManager.setText(AnnotatedString((message.toString())))
                                             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
                                                 Toast
                                                     .makeText(context, "Copied", Toast.LENGTH_SHORT)

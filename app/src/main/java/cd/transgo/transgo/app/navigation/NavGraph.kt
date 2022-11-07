@@ -4,12 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import cd.transgo.transgo.MainViewModel
 import cd.transgo.transgo.presentation.auth.AuthScreen
 import cd.transgo.transgo.presentation.home.HomeScreen
+import cd.transgo.transgo.presentation.home.business.HomeViewModel
 import cd.transgo.transgo.presentation.splash.SplashScreen
 
 @Composable
-fun SetupNavGraph(navController: NavHostController) {
+fun SetupNavGraph(navController: NavHostController, viewModel: MainViewModel) {
     NavHost(navController = navController, startDestination = Screen.Splash.route){
         composable(route = Screen.Splash.route){
             SplashScreen(navController)
@@ -18,7 +20,7 @@ fun SetupNavGraph(navController: NavHostController) {
             AuthScreen(navController = navController)
         }
         composable(route = Screen.Home.route){
-            HomeScreen(navController)
+            HomeScreen(navController, viewModel)
         }
         composable(route = Screen.Translator.route){
           //  HomeScreen(navController)

@@ -15,7 +15,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import cd.transgo.transgo.MainViewModel
 import cd.transgo.transgo.R
 import cd.transgo.transgo.app.navigation.Screen
 import cd.transgo.transgo.presentation.home.business.ConnectionState
@@ -24,7 +26,7 @@ import cd.transgo.transgo.ui.theme.Purple500
 import kotlinx.coroutines.launch
 
 @Composable
-fun ToolbarWidget(navController: NavController, homeViewModel: HomeViewModel) {
+fun ToolbarWidget(navController: NavController, homeViewModel: HomeViewModel = hiltViewModel()) {
 
     val state by homeViewModel.state.collectAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -59,7 +61,7 @@ fun ToolbarWidget(navController: NavController, homeViewModel: HomeViewModel) {
                     .size(30.dp)
                     .clickable {
                         coroutineScope.launch {
-                            when(state) {
+                            when (state) {
                                 is ConnectionState.Success -> {
                                     if ((state as ConnectionState.Success).isAuth) {
                                         navController.navigate(Screen.Translator.route)
