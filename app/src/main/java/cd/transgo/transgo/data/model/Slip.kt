@@ -14,7 +14,8 @@ data class Slip(
             word = null,
             translate = advice,
             date = date,
-            id = id
+            id = id,
+            state = "false"
         )
     }
 }

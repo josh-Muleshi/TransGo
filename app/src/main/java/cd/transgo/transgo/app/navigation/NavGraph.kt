@@ -23,7 +23,7 @@ fun SetupNavGraph(navController: NavHostController, viewModel: MainViewModel) {
             HomeScreen(navController, viewModel)
         }
         composable(route = Screen.Translator.route){
-            TranslatorScreen(navController)
+            TranslatorScreen(navController, viewModel)
         }
     }
 }

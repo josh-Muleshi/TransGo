@@ -3,90 +3,112 @@
     "word": "bonjour",
     "translate": "mbonte",
     "date": "2015-05-26",
-    "id": 1
+    "id": 1,
+    "state": "true"
   },
   {
     "word": "salut",
     "translate": "mbonte",
     "date": "2015-05-26",
-    "id": 2
+    "id": 2,
+    "state": "true"
   },
   {
     "word": "bienvenue",
     "translate": "boyei elamu !",
     "date": "2015-05-26",
-    "id": 3
+    "id": 3,
+    "state": "true"
   },
   {
     "word": "bienvenue chez nous",
     "translate": "boyei elamu epayi na biso !",
     "date": "2015-05-26",
-    "id": 4
+    "id": 4,
+    "state": "true"
   },
   {
     "word": "comment ça va ?",
     "translate": "boni nzoto ?",
     "date": "2015-05-26",
-    "id": 5
+    "id": 5,
+    "state": "true"
   },
   {
     "word": "comment va la santé",
     "translate": "boni sante ?",
     "date": "2015-05-26",
-    "id": 6
+    "id": 6,
+    "state": "true"
   },
   {
     "word": "comment ça va chez vous ?",
     "translate": "boni epayi na bino?",
     "date": "2015-05-26",
-    "id": 7
+    "id": 7,
+    "state": "true"
   },
   {
     "word": "comment ça va à la maison ?",
     "translate": "boni (bino) na ndako?",
     "date": "2015-05-26",
-    "id": 8
+    "id": 8,
+    "state": "true"
   },
   {
     "word": "nous avons de la visite",
     "translate": "toyambi bapaya !",
     "date": "2015-05-26",
-    "id": 9
+    "id": 9,
+    "state": "true"
   },
   {
     "word": "nous avons des invités",
     "translate": "toyambi bapaya !",
     "date": "2015-05-26",
-    "id": 10
+    "id": 10,
+    "state": "true"
   },
   {
     "word": "nous venons vous rendre visite",
     "translate": "toyei kotala bino",
     "date": "2015-05-26",
-    "id": 11
+    "id": 11,
+    "state": "true"
   },
   {
     "word": "tu vas bien ?",
     "translate": "oyali (ou: ozali malamu? oza malamu? o’a malamu?)",
     "date": "2015-05-26",
-    "id": 12
+    "id": 12,
+    "state": "true"
   },
   {
     "word": "comment allez-vous ?",
     "translate": "sango boni ? ou sango nini ?",
     "date": "2015-05-26",
-    "id": 13
+    "id": 13,
+    "state": "true"
   },
   {
     "word": "quelles sont les nouvelles ?",
     "translate": "sango boni ? ou sango nini ?",
     "date": "2015-05-26",
-    "id": 14
+    "id": 14,
+    "state": "true"
   },
   {
     "word": "quoi de neuf ?",
     "translate": "sango boni ? ou sango nini ?",
     "date": "2015-05-26",
-    "id": 15
+    "id": 15,
+    "state": "true"
+  },
+  {
+    "word": "",
+    "translate": "boni ?",
+    "date": "2015-05-26",
+    "id": 16,
+    "state": "false"
   }
 ]

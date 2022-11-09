@@ -8,5 +8,6 @@ data class Translate(
     val word: String?,
     val translate: String?,
     val date: String?,
-    val id: Int?
+    val id: Int?,
+    val state: String?
 ): Parcelable

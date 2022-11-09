@@ -18,19 +18,45 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val data: StateFlow<HomeState>
         get() = _data
 
+    private val _state = MutableStateFlow<HomeState>(HomeState.Uninitialized)
+    val state: StateFlow<HomeState>
+        get() = _state
+
     private val repository = TranslateRepository(application)
+
+    init {
+        getTranslator()
+    }
 
     @OptIn(FlowPreview::class)
     fun translate(source: String) = viewModelScope.launch {
         _data.emit(HomeState.Loading)
         try {
             repository.getTranslate(source).debounce(7000).collect { advice ->
-                Log.e("see", advice.translate.toString())
                 _data.emit(HomeState.Success(advice))
             }
         } catch (t: Throwable) {
-            Log.e("see", "faild : ${t.message.toString()}")
             _data.emit(HomeState.Error(t.message.toString()))
+        }
+    }
+
+    private fun getTranslator() = viewModelScope.launch {
+        _state.emit(HomeState.Loading)
+        try {
+            repository.getForTranslator().collect { advice ->
+                _state.emit(HomeState.Success(advice))
+            }
+        } catch (t: Throwable) {
+            _state.emit(HomeState.Error(t.message.toString()))
+        }
+    }
+
+    fun setTranslator(word: String) = viewModelScope.launch {
+        _state.emit(HomeState.Loading)
+        try {
+            repository.setTranslate(word)
+        } catch (t: Throwable) {
+            _state.emit(HomeState.Error(t.message.toString()))
         }
     }
 }

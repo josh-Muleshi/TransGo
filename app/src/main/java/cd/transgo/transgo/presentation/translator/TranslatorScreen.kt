@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -19,14 +20,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import cd.transgo.transgo.MainViewModel
 import cd.transgo.transgo.R
+import cd.transgo.transgo.presentation.home.business.HomeState
 import cd.transgo.transgo.presentation.translator.business.TopActionBar
 import cd.transgo.transgo.ui.theme.*
 
 @Composable
-fun TranslatorScreen(navController: NavController) {
+fun TranslatorScreen(navController: NavController, viewModel: MainViewModel) {
+
+    val data by viewModel.state.collectAsState()
 
     var title by remember { mutableStateOf("") }
+    LaunchedEffect(title){
+
+    }
     val scaffoldState = rememberScaffoldState()
     val focusRequest = remember {
         FocusRequester()
@@ -36,7 +44,7 @@ fun TranslatorScreen(navController: NavController) {
             TopActionBar(navController)
         }, floatingActionButton = {
             FloatingActionButton(onClick = {
-                
+                viewModel.setTranslator(title)
             },
                 backgroundColor = Purple500,
                 contentColor = Color.White
@@ -55,17 +63,20 @@ fun TranslatorScreen(navController: NavController) {
                 .background(BackGray)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
-
-                Text(
-                    text = "Mbote na bino",
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 25.sp,
-                    fontStyle = FontStyle.Normal,
-                    fontWeight = FontWeight.Bold
-                )
+                if(data is HomeState.Success){
+                    (data as HomeState.Success).advice.translate?.let { message ->
+                        Text(
+                            text = message,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontSize = 25.sp,
+                            fontStyle = FontStyle.Normal,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
 
                 Box(
                     modifier = Modifier
@@ -92,21 +103,23 @@ fun TranslatorScreen(navController: NavController) {
                         )
                     )
                 }
-
-                Text(
-                    text = "1/100",
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontStyle = FontStyle.Italic,
-                    fontWeight = FontWeight.Medium
-                )
-
-                LinearProgressIndicator(progress = 0.5f, modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-                    .height(16.dp))
-
+                if(data is HomeState.Success){
+                    (data as HomeState.Success).advice.id?.let { id ->
+                    Text(
+                        text = "${id}/100",
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Medium
+                    )
+                    val fl = id.div(100f)
+                    LinearProgressIndicator(progress = fl, modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .height(16.dp))
+                    }
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
