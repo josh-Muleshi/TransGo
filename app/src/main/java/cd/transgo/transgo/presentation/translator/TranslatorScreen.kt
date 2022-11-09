@@ -1,6 +1,7 @@
 package cd.transgo.transgo.presentation.translator
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -32,8 +33,17 @@ fun TranslatorScreen(navController: NavController, viewModel: MainViewModel) {
     val data by viewModel.state.collectAsState()
 
     var title by remember { mutableStateOf("") }
-    LaunchedEffect(title){
-
+    var message by remember { mutableStateOf("") }
+    if(data is HomeState.Success){
+        (data as HomeState.Success).advice.translate?.let {
+            message = it
+        }
+    }
+    var id by remember { mutableStateOf(0) }
+    if(data is HomeState.Success){
+        (data as HomeState.Success).advice.id?.let {
+            id = it
+        }
     }
     val scaffoldState = rememberScaffoldState()
     val focusRequest = remember {
@@ -44,7 +54,7 @@ fun TranslatorScreen(navController: NavController, viewModel: MainViewModel) {
             TopActionBar(navController)
         }, floatingActionButton = {
             FloatingActionButton(onClick = {
-                viewModel.setTranslator(title)
+                viewModel.getTranslator(id, title)
             },
                 backgroundColor = Purple500,
                 contentColor = Color.White
@@ -63,20 +73,16 @@ fun TranslatorScreen(navController: NavController, viewModel: MainViewModel) {
                 .background(BackGray)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
-                if(data is HomeState.Success){
-                    (data as HomeState.Success).advice.translate?.let { message ->
-                        Text(
-                            text = message,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 25.sp,
-                            fontStyle = FontStyle.Normal,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
+                Text(
+                    text = message.ifEmpty { "Null" },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 25.sp,
+                    fontStyle = FontStyle.Normal,
+                    fontWeight = FontWeight.Bold
+                )
 
                 Box(
                     modifier = Modifier
@@ -103,23 +109,20 @@ fun TranslatorScreen(navController: NavController, viewModel: MainViewModel) {
                         )
                     )
                 }
-                if(data is HomeState.Success){
-                    (data as HomeState.Success).advice.id?.let { id ->
-                    Text(
-                        text = "${id}/100",
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        fontStyle = FontStyle.Italic,
-                        fontWeight = FontWeight.Medium
-                    )
-                    val fl = id.div(100f)
-                    LinearProgressIndicator(progress = fl, modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                        .height(16.dp))
-                    }
-                }
+                Text(
+                    text = "${id}/100",
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Medium
+                )
+                val fl = id.div(100f)
+                LinearProgressIndicator(progress = fl, modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .height(16.dp))
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -131,7 +134,10 @@ fun TranslatorScreen(navController: NavController, viewModel: MainViewModel) {
                         painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = "back",
                         modifier = Modifier
-                            .size(40.dp),
+                            .size(40.dp)
+                            .clickable {
+                                viewModel.getTranslator(id.minus(2))
+                            },
                         tint = Purple500
                     )
                     Spacer(modifier = Modifier.padding(16.dp))
@@ -139,7 +145,10 @@ fun TranslatorScreen(navController: NavController, viewModel: MainViewModel) {
                         painter = painterResource(id = R.drawable.ic_arrow_forward),
                         contentDescription = "press",
                         modifier = Modifier
-                            .size(40.dp),
+                            .size(40.dp)
+                            .clickable {
+                                viewModel.getTranslator(id)
+                            },
                         tint = Purple500
                     )
                 }

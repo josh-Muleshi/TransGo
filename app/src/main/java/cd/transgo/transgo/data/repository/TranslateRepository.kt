@@ -30,50 +30,37 @@ class TranslateRepository (context: Context) {
                     word = source,
                     translate = currObject.getString("translate"),
                     date = currObject.getString("date"),
-                    id = currObject.getInt("id"),
-                    state = currObject.getString("state")
+                    id = currObject.getInt("id")
                 )
                 emit(searchObject)
             }
         }
     }
 
-    fun getForTranslator() = flow {
+    fun getForTranslator(start: Int = 0, word: String) = flow {
 
         val arrays = JSONArray(file);
 
-        for (i: Int in 0 until arrays.length()){
+        for (i: Int in start until arrays.length()){
             val currObject : JSONObject = arrays.getJSONObject(i)
             val name = currObject.getString("word")
-
             if(name.isEmpty()) {
                 val searchObject = Translate(
                     word = currObject.getString("word"),
                     translate = currObject.getString("translate"),
                     date = currObject.getString("date"),
-                    id = currObject.getInt("id"),
-                    state = currObject.getString("state")
+                    id = currObject.getInt("id")
                 )
-                emit(searchObject)
-            }
-        }
-    }
-
-    suspend fun setTranslate(word: String){
-
-        val arrays = JSONArray(file)
-
-        for (i: Int in 0 until arrays.length()){
-            val currObject : JSONObject = arrays.getJSONObject(i)
-            val name = currObject.getString("word")
-
-            if(name.isEmpty()) {
-                BufferedWriter(withContext(Dispatchers.IO) {
-                    FileWriter(file)
-                }).apply {
-                    write(currObject.put("word", word).toString())
-                    close()
+                if (word.isNotEmpty()){
+                    withContext(Dispatchers.IO) {
+                        BufferedWriter(FileWriter(file)).apply {
+                            write(currObject.put("word", word).toString())
+                            close()
+                        }
+                    }
                 }
+                emit(searchObject)
+                break
             }
         }
     }

@@ -40,21 +40,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun getTranslator() = viewModelScope.launch {
+    fun getTranslator(start: Int = 0, word: String = "") = viewModelScope.launch {
         _state.emit(HomeState.Loading)
         try {
-            repository.getForTranslator().collect { advice ->
+            repository.getForTranslator(start, word).collect { advice ->
                 _state.emit(HomeState.Success(advice))
             }
-        } catch (t: Throwable) {
-            _state.emit(HomeState.Error(t.message.toString()))
-        }
-    }
-
-    fun setTranslator(word: String) = viewModelScope.launch {
-        _state.emit(HomeState.Loading)
-        try {
-            repository.setTranslate(word)
         } catch (t: Throwable) {
             _state.emit(HomeState.Error(t.message.toString()))
         }
